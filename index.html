@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>HitFinds Account Diagnosis - Logged Out</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: #151515;
+      --panel-2: #101010;
+      --line: #282828;
+      --line-soft: rgba(255, 255, 255, 0.08);
+      --lime: #baff00;
+      --lime-2: #d7ff3d;
+      --mint: #12ffaa;
+      --amber: #ffba14;
+      --orange: #ff5a16;
+      --text: #f4f4f4;
+      --muted: #9c9c9c;
+      --soft: #707070;
+      --shadow-lime: rgba(186, 255, 0, 0.42);
+      --radius: 20px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% -8%, rgba(186, 255, 0, 0.12), transparent 24rem),
+        linear-gradient(180deg, #000 0%, #050505 34%, #080808 100%);
+      color: var(--text);
+      letter-spacing: 0;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    .phone {
+      width: min(100%, 430px);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: env(safe-area-inset-top) 14px 104px;
+      position: relative;
+      background: #030303;
+      overflow: hidden;
+    }
+
+    .status-bar {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 18px;
+      color: #f7f7f7;
+      padding: 0 4px;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #f7f7f7;
+    }
+
+    .signal {
+      width: 20px;
+      height: 14px;
+      display: grid;
+      grid-template-columns: repeat(4, 3px);
+      align-items: end;
+      gap: 2px;
+    }
+
+    .signal i {
+      display: block;
+      width: 3px;
+      border-radius: 2px;
+      background: #fff;
+    }
+
+    .signal i:nth-child(1) { height: 4px; }
+    .signal i:nth-child(2) { height: 7px; }
+    .signal i:nth-child(3) { height: 10px; }
+    .signal i:nth-child(4) { height: 13px; }
+
+    .wifi {
+      width: 17px;
+      height: 13px;
+      position: relative;
+    }
+
+    .wifi:before,
+    .wifi:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 2px solid #fff;
+      border-color: #fff transparent transparent transparent;
+      border-radius: 50%;
+    }
+
+    .wifi:before {
+      top: 1px;
+      width: 17px;
+      height: 17px;
+    }
+
+    .wifi:after {
+      top: 6px;
+      width: 9px;
+      height: 9px;
+    }
+
+    .battery {
+      width: 28px;
+      height: 13px;
+      border: 2px solid #fff;
+      border-radius: 3px;
+      position: relative;
+    }
+
+    .battery:before {
+      content: "";
+      position: absolute;
+      right: -5px;
+      top: 3px;
+      width: 2px;
+      height: 5px;
+      border-radius: 0 2px 2px 0;
+      background: #fff;
+    }
+
+    .battery:after {
+      content: "";
+      position: absolute;
+      inset: 2px 5px 2px 2px;
+      border-radius: 1px;
+      background: #fff;
+    }
+
+    .report-meta {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0 18px;
+    }
+
+    .creator {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      border: 1px solid rgba(186, 255, 0, 0.52);
+      background:
+        radial-gradient(circle at 52% 31%, #ffe0bf 0 18%, transparent 19%),
+        radial-gradient(circle at 50% 86%, #baff00 0 31%, transparent 32%),
+        radial-gradient(circle at 50% 48%, #33231c 0 31%, transparent 32%),
+        linear-gradient(145deg, #1affb0, #baff00 48%, #1c1c1c 49%);
+      box-shadow: 0 0 22px rgba(186, 255, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar:before {
+      content: "";
+      position: absolute;
+      left: 15px;
+      top: 13px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #f3c79f;
+      box-shadow: 0 11px 0 8px #101010;
+    }
+
+    .avatar:after {
+      content: "";
+      position: absolute;
+      left: 11px;
+      top: 10px;
+      width: 26px;
+      height: 17px;
+      border-radius: 50% 50% 42% 42%;
+      background: #20130d;
+    }
+
+    .creator-copy {
+      min-width: 0;
+    }
+
+    .creator-kicker {
+      color: var(--lime);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: 1px;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      white-space: nowrap;
+    }
+
+    .creator-name {
+      color: #f5f5f5;
+      font-size: 17px;
+      font-weight: 950;
+      line-height: 1.08;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .period-block {
+      text-align: right;
+      min-width: 142px;
+    }
+
+    .section-label {
+      color: #85858a;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .period {
+      font-size: 23px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .sample-hero {
+      border-radius: var(--radius);
+      border: 1px solid rgba(186, 255, 0, 0.36);
+      background:
+        linear-gradient(145deg, rgba(186, 255, 0, 0.16), rgba(18, 255, 170, 0.06) 34%, rgba(16, 16, 16, 0.96) 68%),
+        #121212;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sample-hero:after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      right: -80px;
+      top: -100px;
+      border-radius: 50%;
+      border: 1px solid rgba(186, 255, 0, 0.14);
+      box-shadow: 0 0 70px rgba(186, 255, 0, 0.12);
+    }
+
+    .hero-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--lime);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sample-pill {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #f3f3f3;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      white-space: nowrap;
+    }
+
+    .sample-title {
+      position: relative;
+      z-index: 1;
+      margin: 10px 0 7px;
+      font-size: 22px;
+      font-weight: 950;
+      line-height: 1.18;
+    }
+
+    .sample-copy {
+      position: relative;
+      z-index: 1;
+      color: #b9b9b9;
+      font-size: 13px;
+      font-weight: 750;
+      line-height: 1.45;
+      max-width: 342px;
+      margin-bottom: 14px;
+    }
+
+    .primary-cta {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--lime);
+      color: #080808;
+      font-size: 15px;
+      font-weight: 950;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 12px 26px rgba(186, 255, 0, 0.22);
+    }
+
+    .primary-cta svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 3;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025)), var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .score-card {
+      padding: 13px 13px 16px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .mini-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #bcbcbc;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .mini-title-left {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .help-trigger {
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #bcbcbc;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .help-trigger svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .help-trigger:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 2px;
+    }
+
+    .score-tooltip {
+      position: absolute;
+      top: 42px;
+      left: 14px;
+      right: 14px;
+      z-index: 6;
+      padding: 12px 13px;
+      border-radius: 14px;
+      border: 1px solid rgba(186, 255, 0, 0.42);
+      background: rgba(7, 13, 8, 0.96);
+      color: #d8e0d7;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42), 0 0 22px rgba(186, 255, 0, 0.08);
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1.42;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .score-tooltip:before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      left: 153px;
+      width: 10px;
+      height: 10px;
+      transform: rotate(45deg);
+      border-left: 1px solid rgba(186, 255, 0, 0.42);
+      border-top: 1px solid rgba(186, 255, 0, 0.42);
+      background: rgba(7, 13, 8, 0.96);
+    }
+
+    .score-tooltip[hidden] {
+      display: none;
+    }
+
+    .score-delta {
+      flex: 0 0 auto;
+      min-height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(186, 255, 0, 0.32);
+      background: rgba(186, 255, 0, 0.12);
+      color: var(--lime);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      letter-spacing: 0;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .score-delta svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 3;
+    }
+
+    .score-delta strong {
+      color: var(--lime);
+      font-size: 15px;
+      font-weight: 950;
+      line-height: 1;
+    }
+
+    .score-delta span {
+      color: #a5a5a5;
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1;
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 142px 1fr;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gauge {
+      height: 88px;
+      position: relative;
+    }
+
+    .gauge svg {
+      width: 142px;
+      height: 88px;
+      display: block;
+      overflow: visible;
+    }
+
+    .gauge .track {
+      fill: none;
+      stroke: rgba(186, 255, 0, 0.12);
+      stroke-width: 10;
+      stroke-linecap: round;
+    }
+
+    .gauge .fill {
+      fill: none;
+      stroke: var(--lime);
+      stroke-width: 10;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 7px rgba(186, 255, 0, 0.72));
+      stroke-dasharray: 175;
+      stroke-dashoffset: 14;
+    }
+
+    .score-num {
+      position: absolute;
+      left: 48px;
+      top: 46px;
+      font-size: 30px;
+      line-height: 1;
+      color: var(--lime);
+      font-weight: 950;
+    }
+
+    .score-num small {
+      color: #878787;
+      font-size: 13px;
+      font-weight: 850;
+      margin-left: 2px;
+    }
+
+    .score-text strong {
+      display: block;
+      color: var(--lime);
+      font-size: 19px;
+      line-height: 1.1;
+      font-weight: 950;
+      margin-bottom: 5px;
+    }
+
+    .score-description {
+      margin: 0;
+      color: #aaa;
+      font-size: 13px;
+      font-weight: 750;
+      line-height: 1.42;
+      max-height: 55.4px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
+
+    .score-description.is-expanded {
+      display: block;
+      -webkit-line-clamp: unset;
+      max-height: none;
+      overflow: visible;
+    }
+
+    .description-toggle {
+      margin-top: 6px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--lime);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .description-toggle[hidden] {
+      display: none;
+    }
+
+    .description-toggle svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 3;
+      transition: transform 160ms ease;
+    }
+
+    .description-toggle[aria-expanded="true"] svg {
+      transform: rotate(180deg);
+    }
+
+    .description-toggle:focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 3px;
+      border-radius: 999px;
+    }
+
+    .heading {
+      color: #9f9f9f;
+      font-size: 16px;
+      font-weight: 950;
+      margin: 21px 0 10px;
+    }
+
+    .radar-heading-row {
+      position: relative;
+      z-index: 7;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 21px 0 10px;
+    }
+
+    .radar-heading-row .heading {
+      margin: 0;
+      min-width: 0;
+    }
+
+    .radar-heading-row .score-tooltip {
+      top: 30px;
+      left: 0;
+      right: 0;
+    }
+
+    .radar-heading-row .score-tooltip:before {
+      left: min(318px, calc(100% - 44px));
+    }
+
+    .below-median-alert {
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 186, 20, 0.52);
+      background: rgba(255, 186, 20, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 0 22px rgba(255, 186, 20, 0.05);
+      padding: 15px 14px 14px;
+      margin: 0 0 18px;
+      display: grid;
+      grid-template-columns: 26px 1fr auto;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .below-icon {
+      color: var(--amber);
+      margin-top: 1px;
+    }
+
+    .below-copy {
+      min-width: 0;
+    }
+
+    .below-title {
+      color: #f3f3f3;
+      font-size: 17px;
+      font-weight: 950;
+      line-height: 1.1;
+      margin-bottom: 7px;
+    }
+
+    .below-subtitle {
+      color: #aaa;
+      font-size: 13px;
+      font-weight: 820;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .below-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .below-chip {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 90, 22, 0.78);
+      padding: 0 12px;
+      background: rgba(255, 90, 22, 0.06);
+      color: #a6a6a6;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .below-chip strong {
+      color: #ff5a16;
+      font-weight: 950;
+      letter-spacing: 0.4px;
+    }
+
+    .below-dismiss {
+      width: 24px;
+      height: 24px;
+      border: 0;
+      border-radius: 50%;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      color: #8c8c8c;
+    }
+
+    .radar-card {
+      padding: 18px 10px 14px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .radar-wrap {
+      position: relative;
+      width: 100%;
+      min-height: 370px;
+    }
+
+    .radar {
+      position: absolute;
+      left: 50%;
+      top: 62px;
+      width: min(230px, 60%);
+      aspect-ratio: 1;
+      transform: translateX(-50%);
+    }
+
+    .radar svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .radar-grid {
+      fill: rgba(186, 255, 0, 0.04);
+      stroke: rgba(186, 255, 0, 0.34);
+      stroke-width: 1.35;
+    }
+
+    .radar-axis {
+      stroke: rgba(186, 255, 0, 0.34);
+      stroke-width: 1.2;
+    }
+
+    .radar-peer {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.86);
+      stroke-width: 2;
+      stroke-dasharray: 7 6;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.35));
+    }
+
+    .radar-shape {
+      fill: rgba(186, 255, 0, 0.27);
+      stroke: var(--lime);
+      stroke-width: 3;
+      filter: drop-shadow(0 0 5px rgba(186, 255, 0, 0.4));
+    }
+
+    .radar-dot {
+      stroke: rgba(255, 255, 255, 0.75);
+      stroke-width: 2;
+    }
+
+    .radar-dot.mint {
+      fill: var(--mint);
+      stroke: var(--mint);
+    }
+
+    .radar-dot.lime {
+      fill: var(--lime);
+    }
+
+    .radar-dot.fair {
+      fill: var(--amber);
+      stroke: var(--amber);
+    }
+
+    .radar-label {
+      position: absolute;
+      color: #f4f4f4;
+      font-size: 11px;
+      font-weight: 950;
+      line-height: 1.08;
+      text-transform: uppercase;
+      text-align: center;
+      white-space: normal;
+      width: 96px;
+      z-index: 2;
+    }
+
+    .radar-label span {
+      display: block;
+      color: var(--lime);
+      margin-top: 2px;
+      font-size: 10px;
+      text-transform: none;
+    }
+
+    .radar-label .mint-word {
+      color: var(--mint);
+    }
+
+    .radar-label .fair-word {
+      color: var(--amber);
+    }
+
+    .radar-label.top { left: 50%; top: 26px; width: 160px; transform: translateX(-50%); }
+    .radar-label.right { right: 8px; top: 154px; text-align: left; }
+    .radar-label.bottom-right { right: 22px; bottom: 72px; width: 118px; text-align: left; }
+    .radar-label.bottom-left { left: 22px; bottom: 72px; width: 118px; text-align: right; }
+    .radar-label.left { left: 8px; top: 154px; text-align: right; }
+
+    .tap-hint {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 5px;
+      text-align: center;
+      color: #9a9a9a;
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.3;
+    }
+
+    .radar-legend {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 7px;
+      color: #a6a6a6;
+      font-size: 10px;
+      font-weight: 850;
+      line-height: 1;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .legend-line {
+      width: 24px;
+      height: 0;
+      border-top: 2px solid var(--lime);
+      border-radius: 999px;
+      box-shadow: 0 0 7px rgba(186, 255, 0, 0.55);
+    }
+
+    .legend-line.peer {
+      border-top-color: rgba(255, 255, 255, 0.9);
+      border-top-style: dashed;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.25);
+    }
+
+    .tabs {
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      background: rgba(3, 3, 3, 0.94);
+      backdrop-filter: blur(12px);
+      display: grid;
+      grid-template-columns: 42px repeat(4, minmax(68px, 1fr));
+      gap: 4px;
+      overflow: hidden;
+      border-bottom: 1px solid #152029;
+      margin: 0 -1px 19px;
+      padding: 0 0 8px;
+    }
+
+    .tab {
+      min-width: 0;
+      color: #8e8e8e;
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 28px;
+      white-space: nowrap;
+      text-align: center;
+      position: relative;
+    }
+
+    .tab.active {
+      color: #f5f5f5;
+      text-align: left;
+      padding-left: 1px;
+    }
+
+    .tab.active:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 28px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--lime);
+      box-shadow: 0 0 10px rgba(186, 255, 0, 0.7);
+    }
+
+    .tab-dot {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--lime);
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+
+    .cards {
+      display: grid;
+      gap: 16px;
+    }
+
+    .pillar-card {
+      min-height: 206px;
+      padding: 24px 26px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar-card:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(186, 255, 0, 0.06), transparent 42%);
+      pointer-events: none;
+    }
+
+    .pill-alert {
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0 8px;
+      border-radius: 5px;
+      border: 1px solid rgba(186, 255, 0, 0.35);
+      background: rgba(186, 255, 0, 0.13);
+      color: var(--lime);
+      font-size: 9px;
+      font-weight: 950;
+      text-transform: uppercase;
+      margin-bottom: 11px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pillar-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pillar-name {
+      min-width: 0;
+    }
+
+    .pillar-name h3 {
+      margin: 0 0 8px;
+      font-size: 21px;
+      line-height: 1.05;
+      font-weight: 950;
+    }
+
+    .pillar-name h3 span {
+      color: #8f8f8f;
+    }
+
+    .pillar-name p {
+      margin: 0;
+      color: #9d9d9d;
+      font-size: 13px;
+      font-weight: 780;
+      line-height: 1.32;
+    }
+
+    .rating {
+      flex: 0 0 auto;
+      text-align: right;
+      min-width: 76px;
+    }
+
+    .rating strong {
+      display: block;
+      color: var(--mint);
+      font-size: 29px;
+      line-height: 0.95;
+      font-weight: 950;
+      margin-bottom: 5px;
+    }
+
+    .rating span {
+      color: #a9a9a9;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: 0.5px;
+    }
+
+    .progress {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(186, 255, 0, 0.1);
+      margin: 29px 0 26px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      background: var(--color, var(--lime));
+      box-shadow: 0 0 12px color-mix(in srgb, var(--color, var(--lime)) 50%, transparent);
+    }
+
+    .pillar-card > p {
+      margin: 0;
+      color: #a4a4a4;
+      font-size: 13px;
+      font-weight: 760;
+      line-height: 1.45;
+      position: relative;
+      z-index: 1;
+    }
+
+    .premium-lock {
+      margin: 20px 0 22px;
+      border: 1px solid rgba(186, 255, 0, 0.28);
+      background: linear-gradient(145deg, rgba(186, 255, 0, 0.12), rgba(255, 186, 20, 0.06)), #111;
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .lock-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 13px;
+    }
+
+    .lock-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(186, 255, 0, 0.15);
+      border: 1px solid rgba(186, 255, 0, 0.34);
+      color: var(--lime);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .lock-row strong {
+      display: block;
+      font-size: 16px;
+      line-height: 1.18;
+      font-weight: 950;
+      margin-bottom: 4px;
+    }
+
+    .lock-row span {
+      color: #a8a8a8;
+      display: block;
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1.35;
+    }
+
+    .secondary-cta {
+      width: 100%;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: #f1f1f1;
+      font-size: 14px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .footer-note {
+      color: #858585;
+      text-align: center;
+      margin: 28px 0 12px;
+      font-size: 12px;
+      font-weight: 760;
+    }
+
+    .nav {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: min(100%, 430px);
+      height: 88px;
+      padding: 12px 24px max(13px, env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(3, 3, 3, 0.76), #030303 32%);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      z-index: 10;
+    }
+
+    .nav-item {
+      color: #969696;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 12px;
+      font-weight: 760;
+      min-width: 0;
+    }
+
+    .nav-item svg {
+      width: 23px;
+      height: 23px;
+      stroke-width: 1.85;
+    }
+
+    .nav-item.active {
+      color: var(--lime);
+      font-weight: 900;
+    }
+
+    svg {
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 370px) {
+      .phone {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .score-row {
+        grid-template-columns: 126px 1fr;
+      }
+
+      .gauge svg {
+        width: 126px;
+      }
+
+      .score-num {
+        left: 42px;
+      }
+
+      .radar-wrap {
+        min-height: 352px;
+      }
+
+      .radar {
+        inset: auto;
+        left: 50%;
+        top: 68px;
+        width: min(180px, 60%);
+        aspect-ratio: 1;
+        transform: translateX(-50%);
+      }
+
+      .radar-label {
+        width: 78px;
+        font-size: 9px;
+      }
+
+      .radar-label span {
+        font-size: 9px;
+      }
+
+      .radar-label.top {
+        width: 150px;
+      }
+
+      .radar-label.right {
+        right: 6px;
+        top: 146px;
+      }
+
+      .radar-label.left {
+        left: 6px;
+        top: 146px;
+        text-align: right;
+      }
+
+      .radar-label.bottom-right,
+      .radar-label.bottom-left {
+        width: 108px;
+        bottom: 70px;
+      }
+
+      .radar-label.bottom-left {
+        text-align: right;
+      }
+
+      .pillar-card {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <div class="status-bar" aria-hidden="true">
+      <div>9:41</div>
+      <div class="status-icons">
+        <span class="signal"><i></i><i></i><i></i><i></i></span>
+        <span class="wifi"></span>
+        <span class="battery"></span>
+      </div>
+    </div>
+
+    <section class="report-meta" aria-label="Creator and report period">
+      <div class="creator">
+        <div class="avatar" aria-hidden="true"></div>
+        <div class="creator-copy">
+          <div class="creator-name">@Mia Harper</div>
+        </div>
+      </div>
+      <div class="period-block">
+        <div class="section-label">Statistical Period</div>
+        <div class="period">Apr 14 - May 12</div>
+      </div>
+    </section>
+
+    <section class="sample-hero" aria-label="Top creator sample notice">
+      <div class="hero-kicker">
+        Logged-Out Preview
+        <span class="sample-pill">Top Creator Sample</span>
+      </div>
+      <h1 class="sample-title">Top Creator's Diagnose Report.</h1>
+      <p class="sample-copy">Log in and authorize Showcase to view your real account diagnosis.</p>
+      <button class="primary-cta" type="button">
+        Log in to see my diagnosis
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="m13 6 6 6-6 6" />
+        </svg>
+      </button>
+    </section>
+
+    <section class="score-card card">
+      <div class="mini-title">
+        <div class="mini-title-left">
+          About This Week
+        </div>
+        <div class="score-delta" aria-label="Score increased by 4 points versus last report">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 19V5" />
+            <path d="m5 12 7-7 7 7" />
+          </svg>
+          <strong>+4 pts</strong>
+          <span>(Vs Last Report)</span>
+        </div>
+      </div>
+      <div class="score-row">
+        <div class="gauge" aria-label="Sample score 92 out of 100">
+          <svg viewBox="0 0 150 96" aria-hidden="true">
+            <path class="track" d="M15 78 A60 60 0 0 1 135 78" />
+            <path class="fill" d="M15 78 A60 60 0 0 1 135 78" pathLength="175" />
+          </svg>
+          <div class="score-num">92<small>/100</small></div>
+        </div>
+        <div class="score-text">
+          <strong>Excellent</strong>
+          <p class="score-description" id="scoreDescription">Top baseline. Strong output, high product fit, and broad audience signal across the last 30 days. This creator also shows durable viewer intent, consistent category relevance, and efficient traffic conversion across multiple content formats. The biggest advantage this week is the ability to turn repeated exposure into stronger audience trust while keeping product recommendations aligned with what viewers are already engaging with.</p>
+          <button class="description-toggle" type="button" aria-expanded="false" aria-controls="scoreDescription" hidden>
+            <span class="toggle-label">Show more</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="below-median-alert" aria-label="One pillar below median">
+      <div class="below-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 3 10 18H2L12 3Z" />
+          <path d="M12 9v5" />
+          <path d="M12 17h.01" />
+        </svg>
+      </div>
+      <div class="below-copy">
+        <div class="below-title">1 Pillar Below Median</div>
+        <div class="below-subtitle">Tap A Pillar Below To Investigate.</div>
+        <div class="below-chips">
+          <span class="below-chip"><strong>CADENCE</strong> · Fair ›</span>
+        </div>
+      </div>
+      <button class="below-dismiss" type="button" aria-label="Dismiss below median alert">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </button>
+    </section>
+
+    <div class="radar-heading-row">
+      <h2 class="heading">Pillar Shape · 5-Dimension Snapshot</h2>
+      <button class="help-trigger" type="button" aria-label="Show radar chart explanation" aria-expanded="false" aria-controls="scoreTooltip">
+        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M10 1.75a8.25 8.25 0 1 0 0 16.5 8.25 8.25 0 0 0 0-16.5Zm0 12.9a.93.93 0 1 1 0-1.86.93.93 0 0 1 0 1.86Zm1.08-3.58c-.17.11-.24.22-.24.47v.35H9.16v-.47c0-.78.36-1.19.93-1.55.58-.37.95-.65.95-1.24 0-.57-.41-.94-1.03-.94-.66 0-1.06.42-1.13 1.12H7.13c.09-1.58 1.25-2.68 2.95-2.68 1.65 0 2.8.97 2.8 2.38 0 1.25-.77 1.87-1.8 2.56Z"/>
+        </svg>
+      </button>
+      <div class="score-tooltip" id="scoreTooltip" role="tooltip" hidden>
+        This radar chart reflects your performance over the past 7 days. It is a composite of five key pillars, each contributing up to 20 points based on its underlying metrics.
+      </div>
+    </div>
+    <section class="radar-card card" aria-label="Five-dimension radar chart">
+      <div class="radar-wrap">
+        <div class="radar-label top">Cadence <span class="fair-word">Fair<br />Below 50% peers</span></div>
+        <div class="radar-label right">Content <span class="mint-word">Excellent<br />Above 94% peers</span></div>
+        <div class="radar-label bottom-right">Product <span>Good<br />Above 90% peers</span></div>
+        <div class="radar-label bottom-left">Audience <span class="mint-word">Excellent<br />Above 97% peers</span></div>
+        <div class="radar-label left">Peers <span>Good<br />Above 91% peers</span></div>
+
+        <div class="radar">
+          <svg viewBox="0 0 260 260" aria-hidden="true">
+            <polygon class="radar-grid" points="130,20 234.62,96.01 194.66,218.99 65.34,218.99 25.38,96.01" />
+            <polygon class="radar-grid" points="130,43 212.75,103.11 181.14,200.39 78.86,200.39 47.25,103.11" />
+            <polygon class="radar-grid" points="130,66 190.88,110.22 167.61,181.79 92.39,181.79 69.12,110.22" />
+            <polygon class="radar-grid" points="130,89 169.01,117.33 154.08,163.2 105.92,163.2 90.99,117.33" />
+            <line class="radar-axis" x1="130" y1="130" x2="130" y2="20" />
+            <line class="radar-axis" x1="130" y1="130" x2="234.62" y2="96.01" />
+            <line class="radar-axis" x1="130" y1="130" x2="194.66" y2="218.99" />
+            <line class="radar-axis" x1="130" y1="130" x2="65.34" y2="218.99" />
+            <line class="radar-axis" x1="130" y1="130" x2="25.38" y2="96.01" />
+            <polygon class="radar-peer" points="130,75 182.31,113 162.33,174.5 97.67,174.5 77.69,113" />
+            <polygon class="radar-shape" points="130,86 224.16,99.41 188.19,210.09 68.57,214.54 35.84,99.41" />
+            <circle class="radar-dot fair" cx="130" cy="86" r="6" />
+            <circle class="radar-dot mint" cx="224.16" cy="99.41" r="6" />
+            <circle class="radar-dot lime" cx="188.19" cy="210.09" r="6" />
+            <circle class="radar-dot mint" cx="68.57" cy="214.54" r="6" />
+            <circle class="radar-dot lime" cx="35.84" cy="99.41" r="6" />
+          </svg>
+        </div>
+        <div class="radar-legend" aria-label="Radar chart legend">
+          <span class="legend-item"><span class="legend-line peer" aria-hidden="true"></span>Peer score</span>
+          <span class="legend-item"><span class="legend-line" aria-hidden="true"></span>Your score</span>
+        </div>
+        <div class="tap-hint">Your Audience is rated Good — above 97% of L2 Beauty peers. This is your strongest level this week.</div>
+      </div>
+    </section>
+
+    <nav class="tabs" aria-label="Pillar tabs">
+      <div class="tab active">All</div>
+      <div class="tab">Cadence<span class="tab-dot"></span></div>
+      <div class="tab">Content</div>
+      <div class="tab">Product</div>
+      <div class="tab">Audience</div>
+    </nav>
+
+    <h2 class="heading">What Top Creators Control · 3 Inputs</h2>
+    <section class="cards">
+      <article class="pillar-card card">
+        <div class="pill-alert">Top Signal</div>
+        <div class="pillar-top">
+          <div class="pillar-name">
+            <h3>Cadence <span>›</span></h3>
+            <p>9 Videos · 12 Live · 7/7 Days</p>
+          </div>
+          <div class="rating">
+            <strong>Excellent</strong>
+            <span>RATING</span>
+          </div>
+        </div>
+        <div class="progress" style="--w: 94%; --color: var(--lime);"><span></span></div>
+        <p>This top creator keeps a steady publishing and live cadence, creating consistent reach across the week and outperforming similar creators.</p>
+      </article>
+
+      <article class="pillar-card card">
+        <div class="pill-alert">Top Signal</div>
+        <div class="pillar-top">
+          <div class="pillar-name">
+            <h3>Content <span>›</span></h3>
+            <p>Hook · Scene · CTA · Engagement</p>
+          </div>
+          <div class="rating">
+            <strong>Excellent</strong>
+            <span>RATING</span>
+          </div>
+        </div>
+        <div class="progress" style="--w: 92%; --color: var(--mint);"><span></span></div>
+        <p>Hooks are strong, CTAs are clear, and engagement is consistent, making this a strong preview of what a full diagnosis can reveal.</p>
+      </article>
+
+      <article class="pillar-card card">
+        <div class="pill-alert">Top Signal</div>
+        <div class="pillar-top">
+          <div class="pillar-name">
+            <h3>Audience <span>›</span></h3>
+            <p>Retention · Trust · Buyer Intent</p>
+          </div>
+          <div class="rating">
+            <strong>Excellent</strong>
+            <span>RATING</span>
+          </div>
+        </div>
+        <div class="progress" style="--w: 96%; --color: var(--mint);"><span></span></div>
+        <p>Audience trust and purchase intent are both high, showing strong creator-audience fit and better room for conversion lift.</p>
+      </article>
+    </section>
+
+    <h2 class="heading">External Context · 2 Signals</h2>
+    <section class="cards">
+      <article class="pillar-card card">
+        <div class="pill-alert">Top Signal</div>
+        <div class="pillar-top">
+          <div class="pillar-name">
+            <h3>Product <span>›</span></h3>
+            <p>Showcase Fit · Price · Seasonality</p>
+          </div>
+          <div class="rating">
+            <strong>Good</strong>
+            <span>RATING</span>
+          </div>
+        </div>
+        <div class="progress" style="--w: 88%; --color: var(--lime);"><span></span></div>
+        <p>Showcase products fit the creator's content scenes well. After authorization, the system will evaluate your real product mix.</p>
+      </article>
+
+      <article class="pillar-card card">
+        <div class="pill-alert">Top Signal</div>
+        <div class="pillar-top">
+          <div class="pillar-name">
+            <h3>Peers <span>›</span></h3>
+            <p>L2 Beauty · 12 Peers Tracked</p>
+          </div>
+          <div class="rating">
+            <strong>Good</strong>
+            <span>RATING</span>
+          </div>
+        </div>
+        <div class="progress" style="--w: 86%; --color: var(--lime);"><span></span></div>
+        <p>This sample creator is ahead of 91% of similar creators. After login, you will see where your account stands against your peer set.</p>
+      </article>
+    </section>
+
+    <section class="premium-lock" aria-label="Unlock your real diagnosis">
+      <div class="lock-row">
+        <div class="lock-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="10" width="16" height="10" rx="2" />
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+          </svg>
+        </div>
+        <div>
+          <strong>Complete two steps to unlock your real account diagnosis</strong>
+          <span>This page only shows a top creator sample. After login, we will guide you to authorize Showcase next.</span>
+        </div>
+      </div>
+      <button class="secondary-cta" type="button">
+        Log in first, then authorize Showcase
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="m13 6 6 6-6 6" />
+        </svg>
+      </button>
+    </section>
+
+    <p class="footer-note">Diagnosis Refreshes Daily At 4 AM PT</p>
+  </main>
+
+  <nav class="nav" aria-label="Bottom navigation">
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 10.5 12 3l9 7.5" />
+        <path d="M5 9.5V21h14V9.5" />
+        <path d="M9 21v-6h6v6" />
+      </svg>
+      Content
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 19h16" />
+        <path d="M7 16V9" />
+        <path d="M12 16V5" />
+        <path d="M17 16v-8" />
+        <path d="m17 8 2 2 2-2" />
+        <path d="m12 5 2 2 2-2" />
+      </svg>
+      Product
+    </a>
+    <a class="nav-item active" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m16 16 4 4" />
+        <path d="m8 11 2 2 4-5" />
+      </svg>
+      Diagnose
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 21a8 8 0 0 0-16 0" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      Growth
+    </a>
+  </nav>
+  <script>
+    const helpTrigger = document.querySelector(".help-trigger");
+    const scoreTooltip = document.querySelector("#scoreTooltip");
+    const scoreDescription = document.querySelector(".score-description");
+    const descriptionToggle = document.querySelector(".description-toggle");
+    const toggleLabel = document.querySelector(".toggle-label");
+
+    helpTrigger?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const shouldOpen = scoreTooltip?.hasAttribute("hidden");
+      if (shouldOpen) {
+        scoreTooltip?.removeAttribute("hidden");
+        helpTrigger.setAttribute("aria-expanded", "true");
+      } else {
+        scoreTooltip?.setAttribute("hidden", "");
+        helpTrigger.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!scoreTooltip || scoreTooltip.hasAttribute("hidden")) return;
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (helpTrigger?.contains(target)) return;
+      scoreTooltip.setAttribute("hidden", "");
+      helpTrigger?.setAttribute("aria-expanded", "false");
+    });
+
+    const descriptionOverflows = () => {
+      if (!scoreDescription) return false;
+      const wasExpanded = scoreDescription.classList.contains("is-expanded");
+      scoreDescription.classList.remove("is-expanded");
+      const isOverflowing = scoreDescription.scrollHeight > scoreDescription.clientHeight + 1;
+      if (wasExpanded) scoreDescription.classList.add("is-expanded");
+      return isOverflowing;
+    };
+
+    const syncDescriptionToggle = () => {
+      if (!scoreDescription || !descriptionToggle || !toggleLabel) return;
+      const canExpand = descriptionOverflows();
+      descriptionToggle.hidden = !canExpand;
+      const isExpanded = scoreDescription.classList.contains("is-expanded");
+      descriptionToggle.setAttribute("aria-expanded", String(isExpanded));
+      toggleLabel.textContent = isExpanded ? "Show less" : "Show more";
+    };
+
+    descriptionToggle?.addEventListener("click", () => {
+      scoreDescription?.classList.toggle("is-expanded");
+      syncDescriptionToggle();
+    });
+
+    syncDescriptionToggle();
+    window.addEventListener("resize", syncDescriptionToggle);
+    if (scoreDescription) {
+      new MutationObserver(syncDescriptionToggle).observe(scoreDescription, {
+        childList: true,
+        characterData: true,
+        subtree: true
+      });
+    }
+  </script>
+</body>
+</html>
