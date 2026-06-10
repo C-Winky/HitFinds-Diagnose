@@ -1184,7 +1184,6 @@
     .guide-topline {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 12px;
       margin-bottom: 7px;
     }
@@ -1195,16 +1194,6 @@
       font-weight: 950;
       letter-spacing: 1px;
       text-transform: uppercase;
-    }
-
-    .guide-skip {
-      border: 0;
-      background: transparent;
-      color: #a9a9a9;
-      padding: 0;
-      font-size: 11px;
-      font-weight: 900;
-      cursor: pointer;
     }
 
     .guide-title {
@@ -1733,7 +1722,6 @@
     <section class="guide-card" aria-describedby="guideText">
       <div class="guide-topline">
         <div class="guide-count">Step 1 Of 4</div>
-        <button class="guide-skip" type="button">Skip</button>
       </div>
       <h2 class="guide-title">Weekly Health Score</h2>
       <p class="guide-text" id="guideText">Analyzed your past 7 days’ performance, calculated health score and level, and provided a brief summary.</p>
@@ -1823,7 +1811,6 @@
     const guideText = document.querySelector(".guide-text");
     const guideBack = document.querySelector(".guide-back");
     const guideNext = document.querySelector(".guide-next");
-    const guideSkip = document.querySelector(".guide-skip");
     const guideDots = Array.from(document.querySelectorAll(".guide-dot"));
     const guideLoginCta = document.querySelector(".primary-cta");
     const guideLoginCtaText = document.querySelector(".primary-cta-text");
@@ -1958,7 +1945,6 @@
       renderGuideStep();
     });
 
-    guideSkip?.addEventListener("click", closeGuide);
     window.addEventListener("resize", updateGuidePosition);
     window.addEventListener("scroll", updateGuidePosition, { passive: true });
     openGuide();
