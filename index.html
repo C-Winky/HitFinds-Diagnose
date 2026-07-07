@@ -54,7 +54,7 @@
       padding: env(safe-area-inset-top) 14px 104px;
       position: relative;
       background: #030303;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .status-bar {
@@ -252,114 +252,104 @@
     }
 
     .sample-hero {
-      border-radius: var(--radius);
+      position: sticky;
+      top: max(env(safe-area-inset-top), 8px);
+      z-index: 40;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px 12px;
+      border-radius: 14px;
       border: 1px solid rgba(186, 255, 0, 0.36);
       background:
-        linear-gradient(145deg, rgba(186, 255, 0, 0.16), rgba(18, 255, 170, 0.06) 34%, rgba(16, 16, 16, 0.96) 68%),
+        linear-gradient(145deg, rgba(186, 255, 0, 0.13), rgba(18, 255, 170, 0.05) 42%, rgba(16, 16, 16, 0.98) 74%),
         #121212;
-      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      padding: 16px;
-      margin-bottom: 16px;
-      position: relative;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.58), 0 0 18px rgba(186, 255, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      padding: 10px 11px 10px 12px;
+      margin-bottom: 12px;
       overflow: hidden;
+      backdrop-filter: blur(14px);
     }
 
     .sample-hero:after {
       content: "";
       position: absolute;
-      width: 180px;
-      height: 180px;
-      right: -80px;
-      top: -100px;
+      width: 118px;
+      height: 118px;
+      right: -52px;
+      top: -72px;
       border-radius: 50%;
       border: 1px solid rgba(186, 255, 0, 0.14);
       box-shadow: 0 0 70px rgba(186, 255, 0, 0.12);
     }
 
     .hero-kicker {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      min-width: 0;
       color: var(--lime);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 1px;
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: 0.9px;
+      line-height: 1.1;
       text-transform: uppercase;
       position: relative;
       z-index: 1;
     }
 
-    .sample-pill {
-      padding: 5px 9px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.4);
-      color: #f3f3f3;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 10px;
-      letter-spacing: 0.8px;
-      white-space: nowrap;
-    }
-
-    .sample-points {
+    .sample-message {
       position: relative;
       z-index: 1;
-      margin: 10px 0 16px;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 8px;
-      max-width: 342px;
-    }
-
-    .sample-points li {
+      grid-column: 1 / 2;
+      margin: 0;
+      max-width: none;
       color: #b9b9b9;
-      font-size: 13px;
-      font-weight: 750;
-      line-height: 1.45;
-      display: grid;
-      grid-template-columns: 9px 1fr;
-      gap: 8px;
-      align-items: start;
-    }
-
-    .sample-points li:before {
-      content: "";
-      width: 5px;
-      height: 5px;
-      margin-top: 7px;
-      border-radius: 50%;
-      background: var(--lime);
-      box-shadow: 0 0 8px rgba(186, 255, 0, 0.5);
+      font-size: 11px;
+      font-weight: 760;
+      line-height: 1.25;
     }
 
     .primary-cta {
       position: relative;
       z-index: 1;
-      width: 100%;
-      min-height: 48px;
+      grid-column: 2 / 3;
+      grid-row: 1 / 3;
+      width: auto;
+      min-height: 36px;
       border: 0;
       border-radius: 999px;
       background: var(--lime);
       color: #080808;
-      font-size: 15px;
+      font-size: 11px;
       font-weight: 950;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      box-shadow: 0 12px 26px rgba(186, 255, 0, 0.22);
+      gap: 5px;
+      padding: 0 12px;
+      white-space: nowrap;
+      box-shadow: 0 8px 18px rgba(186, 255, 0, 0.2);
     }
 
     .primary-cta svg {
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       stroke-width: 3;
     }
 
     .primary-cta-text {
       display: inline-block;
+    }
+
+    @media (max-width: 374px) {
+      .sample-hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .primary-cta {
+        grid-column: 1;
+        grid-row: auto;
+        width: 100%;
+      }
     }
 
     .card {
@@ -638,6 +628,11 @@
 
     .radar-heading-row .score-tooltip:before {
       left: min(318px, calc(100% - 44px));
+    }
+
+    .guide-target-diagnosis,
+    .guide-target-details {
+      scroll-margin-top: 92px;
     }
 
     .below-median-alert {
@@ -1452,15 +1447,11 @@
 
     <section class="sample-hero" aria-label="Top creator sample notice">
       <div class="hero-kicker">
-        Logged-Out Preview
-        <span class="sample-pill">report sample</span>
+        Sample Report
       </div>
-      <ul class="sample-points">
-        <li>Since you’re not logged in or haven’t authorized your TikTok account, we’re showing a sample report from another creator.</li>
-        <li>Log in and authorize Showcase to view your real account diagnosis.</li>
-      </ul>
+      <p class="sample-message">Log in and authorize Showcase to view your diagnosis.</p>
       <button class="primary-cta" type="button">
-        <span class="primary-cta-text">Log in to see my diagnosis</span>
+        <span class="primary-cta-text">Log In to View Diagnosis</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M5 12h14" />
           <path d="m13 6 6 6-6 6" />
